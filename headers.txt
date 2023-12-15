@@ -1,0 +1,4 @@
+Host: localhost
+Connection: close
+Content-Type: text/css
+Content-Length: 100500
