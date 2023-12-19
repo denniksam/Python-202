@@ -1,0 +1,2 @@
+RewriteEngine on
+RewriteRule  ^(\w\w)/shop/(.*)$  shop.py?lang=$1&id=$2

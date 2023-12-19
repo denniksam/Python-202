@@ -26,9 +26,16 @@ def print_json() :
     try :
         with open("data.json") as file :
             j = json.load( file )
-        print( type(j), j )
+        print( type(j), j )  # <class 'dict'> {'str': 
         for k in j :
             print( k, j[k], type(j[k]) )
+        j['cyr'] = "Кирилічні дані"
+        print( '===========================' )
+        print( j )              # ... 'cyr': 'Кирилічні дані'
+        print( json.dumps(j) )  # ... "cyr": "\u041a\u0438\u0440\u04
+        print( json.dumps( j,   # ... "cyr": "Кирилічні дані"
+            ensure_ascii=False, # Unescaped unicode
+            indent=2 ) )        # Pretty print (2 spaces)
     except :
         print( "Error" )
 
