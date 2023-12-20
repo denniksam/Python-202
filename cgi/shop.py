@@ -1,6 +1,12 @@
 #!C:\Python312\python.exe
 import os
 
+def send_redirect( location:str ) :
+    print( "Status: 302 Found" )
+    print( f"Location: {location}" )
+    print()
+    exit()
+
 # Розбираємо рядок QUERY_STRING на dict
 query_params = { k: v for k, v in 
                 ( pair.split('=') for pair in 
@@ -11,12 +17,9 @@ titles = {
     'en': "Welcome to shop",
     'de': "Willkommen beim Einkaufen"
 }
-lang = query_params['lang']   # query_params['lang'] if 'lang' in query_params else 'uk' 
+lang = query_params.get( 'lang', 'uk' )   # query_params['lang'] if 'lang' in query_params else 'uk' 
 if not lang in titles :
-    # lang = 'uk'
-    print( "Location: /uk/shop/" )
-    print()
-    exit()
+    send_redirect( "/uk/shop/" )
 
 title = titles[ lang ]
 
