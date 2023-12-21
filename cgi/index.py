@@ -9,18 +9,8 @@ envs = f"<ul>{"".join([f"<li>{k} = {v}</li>" for k,v in os.environ.items()])}</u
 print( "Content-Type: text/html; charset=cp1251" )
 print( "Connection: close" )
 print()   # порожній рядок - кінець заголовків
-print( f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="cp1251">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CGI</title>
-</head>
-<body>
-    <h1>CGI працює</h1>
-    <p>{envs}</p>
-</body>
-</html>''' )
+with open( 'home.html' ) as file :
+    print( file.read() )
 
 
 """
