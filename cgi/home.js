@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded',() => {
+﻿document.addEventListener('DOMContentLoaded',() => {
     const authButton = document.getElementById('auth-button');
     if(authButton) authButton.addEventListener('click', authButtonClick );
     
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded',() => {
 
 function productButtonClick() {
     fetch("/product", {
-        method: "PUT",
+        method: "POST",
         body: JSON.stringify( {
             name:  document.getElementById("product-name" ).value,
             price: document.getElementById("product-price").value,
@@ -55,3 +55,19 @@ function infoButtonClick() {
 у поле 'user-token', у разі відмови - стерти значення та видати
 повідомлення про відхилення автентифікації.
 */
+angular
+.module('app', [])
+.directive('products', function() {
+    return {
+      restrict: 'E',
+      transclude: true,
+      scope: {},
+      controller: function($scope, $http) {
+        $scope.products = [];
+        $http.get('/product')
+        .then( r => $scope.products = r.data.data );
+      },
+      templateUrl: `/tpl/product.html`,
+      replace: true
+    };
+  })
