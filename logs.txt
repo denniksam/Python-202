@@ -1,0 +1,9 @@
+2023-12-25 13:50:58,777 - WARNING - Warning message
+2023-12-25 13:50:58,778 - ERROR - DAO error
+2023-12-25 13:52:34,739 - WARNING - Warning message ()
+2023-12-25 13:52:34,739 - ERROR - DAO error {'sql': 'SELECT *', 'err': 'Syntax error'}
+2023-12-25 13:56:28,940 ERROR 10_logging.py DAO error {'sql': 'SELECT *', 'err': 'Syntax error'}
+2023-12-25 14:16:15 ERROR [10_logging.py::12] DAO error {'sql': 'SELECT *', 'err': 'Syntax error'}
+2023-12-25 14:23:14 WARNING [i10_module.py::4] From module ()
+2023-12-25 14:23:14 ERROR [10_logging.py::14] DAO error {'sql': 'SELECT *', 'err': 'Syntax error'}
+2023-12-25 14:23:14 WARNING [i10_module.py::7] From function ()

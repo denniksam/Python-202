@@ -1,41 +1,30 @@
 import api_controller
-import  json
 import sys
+sys.path.append('../../')
+import dao
 
 class ProductController( api_controller.ApiController ) :
 
     def do_get( self ) :
-        db = self.connect_db_or_exit()
-        ret = []
-        sql = "SELECT * FROM products"
         try :
-            with db.cursor() as cursor :
-                cursor.execute( sql )
-                for row in cursor :
-                    ret.append( dict( zip( cursor.column_names, map( str, row ) ) ) )
+            products = dao.Products.get_all()
         except :
             self.send_response( 
                 meta={ "service": "product", "count": 0, "status": 500 },
                 data={ "message": "Internal server error, see logs for details" } )
         else :
             self.send_response( 
-                meta={ "service": "product", "count": len(ret), "status": 200 },
-                data=ret )
+                meta={ "service": "product", "count": len(products), "status": 200 },
+                data=products )
 
 
     def do_post( self ) :
-        # Тіло запиту при CGI передається до stdin
-        request_body = sys.stdin.read().encode("cp1251").decode("utf-8")
-        body_data = json.loads( request_body )
-        if not ( 'name' in body_data and 'price' in body_data ) :
+        product = self.get_request_json()
+        if not ( 'name' in product and 'price' in product ) :
             self.send_response( 400, "Bad Request",
                                { "message": "Required: 'name' and 'price' " } )
-        db = self.connect_db_or_exit()
-        sql = "INSERT INTO products (`name`, `price`, `image_url`) VALUES ( %(name)s, %(price)s, %(image)s )"
         try :
-            with db.cursor() as cursor :
-                cursor.execute( sql, body_data )
-            db.commit()   # завершити транзакцію
+            dao.Products.add( product )
         except :
             self.send_response( 
                 meta={ "service": "product", "count": 0, "status": 500 },

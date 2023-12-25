@@ -7,7 +7,7 @@ import mysql.connector
 import os
 import re
 import sys
-sys.path.append( '../' )   # додатковий шлях для пошуку модулів
+sys.path.append( '../../' )   # додатковий шлях для пошуку модулів
 import db_ini
 
 db_connection = None
@@ -92,7 +92,7 @@ def do_get() -> None :
             if row == None :
                 send_response( 401, "Unauthorized", { "message": "Credentials rejected" } )
             user_data = dict( zip( cursor.column_names, row ) )
-            send_response( body={ "scheme": "Bearer", "token": user_data['id'] } )
+            send_response( body={ "scheme": "Bearer", "token": str( user_data['id'] ) } )
     except mysql.connector.Error as err :
         send_response( 500, "Internal Server Error", str(err) )   # TODO: прибрати str(err) 
     

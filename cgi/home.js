@@ -1,6 +1,6 @@
 ﻿document.addEventListener('DOMContentLoaded',() => {
     const authButton = document.getElementById('auth-button');
-    if(authButton) authButton.addEventListener('click', authButtonClick );
+    // if(authButton) authButton.addEventListener('click', authButtonClick );
     
     const infoButton = document.getElementById('info-button');
     if(infoButton) infoButton.addEventListener('click', infoButtonClick );
@@ -63,9 +63,33 @@ angular
       transclude: true,
       scope: {},
       controller: function($scope, $http) {
+        $scope.authToken = "";
+        $scope.userLogin = "user";
+        $scope.userPassword = "123";
         $scope.products = [];
         $http.get('/product')
         .then( r => $scope.products = r.data.data );
+
+        $scope.addCartClick = (id) => {
+            $http({
+                url: '/cart',
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${$scope.authToken}`,
+                },
+                data:  { 'id_product': id } 
+            }).then( r => console.log(r) );
+            // console.log('cart ' + id + ' ' + $scope.authToken);
+        }
+        $scope.authClick = () => {
+            // console.log($scope.userLogin + ' ' + $scope.userPassword);
+            const credentials = btoa( `${$scope.userLogin}:${$scope.userPassword}` )
+            $http.get('/auth',{
+                headers: {
+                    'Authorization': `Basic ${credentials}`,
+                }
+            }).then( r => $scope.authToken = r.data.token );
+        }
       },
       templateUrl: `/tpl/product.html`,
       replace: true

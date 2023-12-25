@@ -127,6 +127,24 @@ def add_product( name:str, price:float, image_url:str=None ) :
         print( 'INSERT INTO products -- OK' )
 
 
+def create_cart() : 
+    global db_connection
+    sql = """CREATE TABLE cart (
+    `id`         BIGINT UNSIGNED  PRIMARY KEY  DEFAULT (UUID_SHORT()),
+    `id_user`    BIGINT UNSIGNED  NOT NULL,
+    `id_product` BIGINT UNSIGNED  NOT NULL,
+    `cnt`        INT              NOT NULL  DEFAULT 1
+    ) ENGINE = InnoDB, DEFAULT CHARSET = utf8mb4 COLLATE utf8mb4_unicode_ci """
+    try :
+        with db_connection.cursor() as cursor :
+            cursor.execute( sql )
+    except mysql.connector.Error as err :
+        print( err )
+    else :
+        print( 'CREATE TABLE cart -- OK' )
+
+
+
 def main() -> None :
     connect_db()
     # create_users()
@@ -143,6 +161,7 @@ def main() -> None :
     }
     # create_products()
     # add_product( **product )
+    create_cart()
 
 
 if __name__ == "__main__" :
